@@ -1,6 +1,13 @@
+const http = require('http');
 const WebSocket = require('ws');
 const port = process.env.PORT || 10000;
-const wss = new WebSocket.Server({ port });
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Relay listo');
+});
+
+const wss = new WebSocket.Server({ server });
 const rooms = new Map();
 
 wss.on('connection', (ws) => {
@@ -36,4 +43,6 @@ wss.on('connection', (ws) => {
   });
 });
 
-console.log('Relay listo en puerto ' + port);
+server.listen(port, '0.0.0.0', () => {
+  console.log('Relay listo en puerto ' + port);
+});
