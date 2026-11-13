@@ -6,7 +6,6 @@ const rooms = new Map();
 wss.on('connection', (ws) => {
   ws.room = null;
   ws.on('message', (data, isBinary) => {
-    // Si NO es binario, es el mensaje de join
     if (!isBinary) {
       try {
         const texto = data.toString();
@@ -21,7 +20,6 @@ wss.on('connection', (ws) => {
       } catch (e) {}
       return;
     }
-    // Si SÍ es binario, es la foto/video, reenviarla
     if (!ws.room) return;
     const clients = rooms.get(ws.room);
     if (!clients) return;
